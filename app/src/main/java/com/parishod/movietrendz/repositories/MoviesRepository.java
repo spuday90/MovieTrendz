@@ -1,13 +1,9 @@
 package com.parishod.movietrendz.repositories;
 
 import android.util.Log;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.parishod.movietrendz.MainActivity;
 import com.parishod.movietrendz.model.Movie;
 import com.parishod.movietrendz.model.MoviePageResults;
 import com.parishod.movietrendz.network.GetMoviesDataService;

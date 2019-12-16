@@ -18,6 +18,7 @@ import static com.parishod.movietrendz.utils.Constants.poster_path_prefix;
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder> {
     List<Movie> mMovies;
+    View.OnClickListener mOnClickListener;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -31,8 +32,14 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         }
     }
 
-    public MyRecyclerViewAdapter(List<Movie> movies) {
+    public MyRecyclerViewAdapter(List<Movie> movies, View.OnClickListener onClickListener) {
         this.mMovies = movies;
+        this.mOnClickListener = onClickListener;
+    }
+
+    public void setData(List<Movie> movies){
+        this.mMovies = movies;
+        notifyDataSetChanged();;
     }
 
     @NonNull
@@ -41,17 +48,20 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         // create a new view
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.movie_item, parent, false);
         RecyclerView.ViewHolder viewHolder = new MyViewHolder(view);
+
         return (MyViewHolder) viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+
         Movie movie = this.mMovies.get(position);
         Picasso.get()
                 .load(poster_path_prefix + movie.getPoster_path())
                 .placeholder(R.drawable.movie_placeholder)
                 .into(holder.imageView);
-
+        holder.itemView.setOnClickListener(mOnClickListener);
+        //holder.imageView.setOnClickListener(mOnClickListener);
     }
 
     @Override

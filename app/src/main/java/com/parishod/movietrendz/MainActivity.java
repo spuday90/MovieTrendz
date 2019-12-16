@@ -6,18 +6,24 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.parishod.movietrendz.adapters.MyRecyclerViewAdapter;
 import com.parishod.movietrendz.model.Movie;
 import com.parishod.movietrendz.viewmodel.MainActivityViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static com.parishod.movietrendz.utils.Constants.INTENT_PARCEL;
 
 public class MainActivity extends AppCompatActivity {
     private MainActivityViewModel mViewModel;
     private RecyclerView mRecyclerView;
     private MyRecyclerViewAdapter mAdapter;
+    List<Movie> mMovies = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +36,9 @@ public class MainActivity extends AppCompatActivity {
         mViewModel.getMovies().observe(this, new Observer<List<Movie>>() {
             @Override
             public void onChanged(List<Movie> movies) {
-                if (mAdapter == null){
-                    mAdapter = new MyRecyclerViewAdapter(movies);
-                    mRecyclerView.setAdapter(mAdapter);
-                }
-                else
-                    mAdapter.notifyDataSetChanged();
+                mMovies.clear();
+                mMovies.addAll(movies);
+                mAdapter.setData(mMovies);
             }
         });
 
@@ -45,6 +48,18 @@ public class MainActivity extends AppCompatActivity {
     private void initRecyclerView() {
         GridLayoutManager mGridLayoutManager = new GridLayoutManager(MainActivity.this, 2);
         mRecyclerView.setLayoutManager(mGridLayoutManager);
+        mAdapter = new MyRecyclerViewAdapter(mMovies, mOnClickListener);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
+    private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int position = mRecyclerView.indexOfChild(v);
+            Movie movie = mMovies.get(position);
+            Intent intent = new Intent(MainActivity.this, MovieDetailsActivity.class);
+            intent.putExtra(INTENT_PARCEL, movie);
+            startActivity(intent);
+        }
+    };
 }

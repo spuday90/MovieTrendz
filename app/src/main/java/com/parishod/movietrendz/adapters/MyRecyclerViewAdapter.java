@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,9 +27,11 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public ImageView imageView;
+        public LinearLayout parentLayout;
         public MyViewHolder(View itemView) {
             super(itemView);
             this.imageView = itemView.findViewById(R.id.iv_movie_poster);
+            this.parentLayout = itemView.findViewById(R.id.linear_layout);
         }
     }
 
@@ -60,7 +63,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                 .load(poster_path_prefix + movie.getPoster_path())
                 .placeholder(R.drawable.movie_placeholder)
                 .into(holder.imageView);
-        holder.itemView.setOnClickListener(mOnClickListener);
+        holder.parentLayout.setOnClickListener(mOnClickListener);
+        //holder.imageView.setOnClickListener(mOnClickListener);
+        //holder.itemView.setOnClickListener(mOnClickListener);
         //holder.imageView.setOnClickListener(mOnClickListener);
     }
 

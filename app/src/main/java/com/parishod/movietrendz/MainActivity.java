@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            int position = mRecyclerView.indexOfChild(v);
+            int position = mRecyclerView.getChildLayoutPosition(v);
             Movie movie = mMovies.get(position);
             Intent intent = new Intent(MainActivity.this, MovieDetailsActivity.class);
             intent.putExtra(INTENT_PARCEL, movie);
